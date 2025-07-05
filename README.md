@@ -100,11 +100,11 @@ npm start
 
 ## 📸 Screenshots
 
-![image](https://github.com/user-attachments/assets/1.png)
-![image](https://github.com/user-attachments/assets/2.png)
-![image](https://github.com/user-attachments/assets/3.png)
-![image](https://github.com/user-attachments/assets/4.png)
-![image](https://github.com/user-attachments/assets/5.png)
+![image](./assets/1.png)
+![image](./assets/2.png)
+![image](./assets/3.png)
+![image](./assets/4.png)
+![image](./assets/5.png)
 
 
 ---
@@ -114,7 +114,3 @@ npm start
 Made with ❤️ by [Rohit Rawat]
 
 ---
-
-## 📜 License
-
-This project is licensed under the MIT License.
