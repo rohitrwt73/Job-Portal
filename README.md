@@ -100,7 +100,8 @@ npm start
 
 ## 📸 Screenshots
 
-_(Add your screenshots here if you'd like visual demo)_
+_(Add your screenshots here if you'd like visual demo)_![image](https://github.com/user-attachments/assets/8a2749e8-5b6e-497c-a367-ce0a90dff217)
+
 
 ---
 
