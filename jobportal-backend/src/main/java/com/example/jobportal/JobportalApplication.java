@@ -1,13 +1,19 @@
 package com.example.jobportal;
 
-import com.example.jobportal.model.User;
-import com.example.jobportal.repository.UserRepository;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.password.PasswordEncoder;
-@SpringBootApplication
+import org.springframework.boot.CommandLineRunner;
+import com.example.jobportal.model.Job;
+import com.example.jobportal.repository.JobRepository;
+import com.github.javafaker.Faker;
+
+import java.util.stream.IntStream;
+
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+@EnableJpaRepositories(basePackages = "com.example.jobportal.repository")
 public class JobportalApplication {
 
     public static void main(String[] args) {
@@ -15,16 +21,21 @@ public class JobportalApplication {
     }
 
     @Bean
-    public CommandLineRunner runner(UserRepository userRepo, PasswordEncoder encoder) {
+    public CommandLineRunner demoData(JobRepository jobRepository) {
         return args -> {
-            if (!userRepo.existsByEmail("demo@example.com")) {
-                User user = new User();
-                user.setEmail("demo@example.com");
-                user.setFirstName("Demo");      // ✅ UPDATED
-                user.setLastName("User");       // ✅ UPDATED
-                user.setPassword(encoder.encode("password"));
-                user.setRole("USER");
-                userRepo.save(user);
+            if (jobRepository.count() == 0) {
+                Faker faker = new Faker();
+                IntStream.rangeClosed(1, 30).forEach(i -> {
+                    Job job = new Job();
+                    job.setTitle(faker.job().title());
+                    job.setDescription(faker.lorem().paragraph(3));
+                    job.setCompany(faker.company().name());
+                    job.setLocation(faker.address().city());
+                    jobRepository.save(job);
+                });
+                System.out.println("Database populated with 30 dummy jobs.");
+            } else {
+                System.out.println("Jobs table already contains data, skipping dummy data generation.");
             }
         };
     }

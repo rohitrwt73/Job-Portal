@@ -1,7 +1,7 @@
 
 # 🧑‍💼 MeetJob - Job Portal Web Application
 
-A full-stack Job Portal built using **Spring Boot**, **React.js**, and **MySQL** with **JWT Authentication** and **AWS RDS** integration.
+A full-stack Job Portal built using **Spring Boot**, **React.js**, and hardcoded jobs with **JWT Authentication**.
 
 ---
 
@@ -12,7 +12,6 @@ A full-stack Job Portal built using **Spring Boot**, **React.js**, and **MySQL**
 - 📄 View Job Details and Apply
 - 🧠 User role management (USER / ADMIN ready)
 - 🌐 Responsive UI with Tailwind CSS and ShadCN
-- 💾 Data stored on **AWS RDS (MySQL)**
 - 🔄 Secure Login + Logout with Token Management
 - ✅ CORS and Axios configured for cross-origin requests
 
@@ -22,7 +21,7 @@ A full-stack Job Portal built using **Spring Boot**, **React.js**, and **MySQL**
 
 | Frontend     | Backend        | Database    | Auth      | Hosting Ready |
 |--------------|----------------|-------------|-----------|----------------|
-| React.js     | Spring Boot    | MySQL (RDS) | JWT Token | AWS RDS, Render, Vercel, Netlify |
+| React.js     | Spring Boot    | Hardcoded   | JWT Token | Render, Vercel, Netlify |
 
 ---
 
@@ -51,12 +50,7 @@ jobportal-frontend/
 
 ### ✅ Backend (Spring Boot)
 
-1. Configure `application.properties` with your AWS RDS credentials:
-```properties
-spring.datasource.url=jdbc:mysql://<rds-endpoint>:3306/jobportal
-spring.datasource.username=admin
-spring.datasource.password=yourpassword
-```
+1. No database configuration needed as jobs are hardcoded.
 
 2. Run:
 ```bash
@@ -85,7 +79,6 @@ npm start
 - Login & Registration with JWT
 - Token is stored in `localStorage`
 - Authenticated requests include `Authorization: Bearer <token>`
-- Protected Spring Boot endpoints use `SecurityConfig` and `JwtFilter`
 
 ---
 

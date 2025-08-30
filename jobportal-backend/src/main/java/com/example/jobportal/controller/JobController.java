@@ -2,7 +2,6 @@ package com.example.jobportal.controller;
 import com.example.jobportal.service.JobService;
 
 import com.example.jobportal.model.Job;
-import com.example.jobportal.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,24 +14,24 @@ import java.util.Optional;
 public class JobController {
 
     @Autowired
-    private JobRepository jobRepository;
+    private JobService jobService;
 
     // ✅ Create a new Job
     @PostMapping
     public Job createJob(@RequestBody Job job) {
-        return jobRepository.save(job);
+        return jobService.createJob(job);
     }
 
     // ✅ Get all Jobs
     @GetMapping
     public List<Job> getAllJobs() {
-        return jobRepository.findAll();
+        return jobService.getAllJobs();
     }
 
     // ✅ Get Job by ID
     @GetMapping("/{id}")
     public ResponseEntity<Job> getJobById(@PathVariable Long id) {
-        Optional<Job> job = jobRepository.findById(id);
+        Optional<Job> job = jobService.getJobById(id);
         return job.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -40,30 +39,18 @@ public class JobController {
     // ✅ Update Job
     @PutMapping("/{id}")
     public ResponseEntity<Job> updateJob(@PathVariable Long id, @RequestBody Job updatedJob) {
-        return jobRepository.findById(id)
-                .map(job -> {
-                    job.setTitle(updatedJob.getTitle());
-                    job.setDescription(updatedJob.getDescription());
-                    job.setCompany(updatedJob.getCompany());
-                    job.setLocation(updatedJob.getLocation());
-                    return ResponseEntity.ok(jobRepository.save(job));
-                })
-                .orElse(ResponseEntity.notFound().build());
+        Job job = jobService.updateJob(id, updatedJob);
+        return job != null ? ResponseEntity.ok(job) : ResponseEntity.notFound().build();
     }
 
     // ✅ Delete Job
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteJob(@PathVariable Long id) {
-        if (jobRepository.existsById(id)) {
-            jobRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+        jobService.deleteJob(id);
+        return ResponseEntity.noContent().build();
     }
 
-   @Autowired
-    private JobService jobService;
-
+    // Search Jobs (Optional, if you want to keep search functionality)
     @GetMapping("/search")
     public List<Job> searchJobs(@RequestParam String title, @RequestParam String location) {
         return jobService.searchJobs(title, location);

@@ -25,6 +25,14 @@ public class Job {
         this.location = location;
     }
 
+    public Job(Long id, String title, String description, String company, String location) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.company = company;
+        this.location = location;
+    }
+
     // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

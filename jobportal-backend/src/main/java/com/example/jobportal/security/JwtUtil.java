@@ -1,9 +1,10 @@
-package com.example.jobportal.util;
+package com.example.jobportal.security;
 
 import com.example.jobportal.model.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.PostConstruct;
@@ -27,16 +28,16 @@ public class JwtUtil {
         this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateToken(User user) {
+    public String generateToken(UserDetails userDetails) {
         try {
             Date now = new Date();
             Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
 
             return Jwts.builder()
-                    .setSubject(user.getEmail())
-                    .claim("firstName", user.getFirstName())
-                    .claim("lastName", user.getLastName())
-                    .claim("role", user.getRole())
+                    .setSubject(userDetails.getUsername())
+                    // Since UserDetails doesn't directly expose firstName, lastName, role,
+                    // we'll get role from authorities. firstName and lastName are not available.
+                    .claim("role", userDetails.getAuthorities().stream().findFirst().map(a -> a.getAuthority()).orElse("USER"))
                     .setIssuedAt(now)
                     .setExpiration(expiryDate)
                     .signWith(key, SignatureAlgorithm.HS256)
