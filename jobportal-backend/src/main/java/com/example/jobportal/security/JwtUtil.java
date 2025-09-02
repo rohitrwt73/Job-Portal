@@ -15,7 +15,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret:Xx7N9vKs8z9CqT@2f#LpZ0gMdRt123!$}")
+    @Value("${jwt.secret=Xx7N9vKs8z9CqT@2f#LpZ0gMdRt123!$9}")
     private String jwtSecret;
 
     @Value("${jwt.expiration:86400000}")
@@ -37,7 +37,8 @@ public class JwtUtil {
                     .setSubject(userDetails.getUsername())
                     // Since UserDetails doesn't directly expose firstName, lastName, role,
                     // we'll get role from authorities. firstName and lastName are not available.
-                    .claim("role", userDetails.getAuthorities().stream().findFirst().map(a -> a.getAuthority()).orElse("USER"))
+                    .claim("role",
+                            userDetails.getAuthorities().stream().findFirst().map(a -> a.getAuthority()).orElse("USER"))
                     .setIssuedAt(now)
                     .setExpiration(expiryDate)
                     .signWith(key, SignatureAlgorithm.HS256)
