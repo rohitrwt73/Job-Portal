@@ -31,13 +31,31 @@ public class JwtFilter extends OncePerRequestFilter {
 
     // Handle CORS preflight requests
     if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-      response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-      response.setHeader("Access-Control-Allow-Credentials", "true");
-      response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-      response.setHeader("Access-Control-Allow-Headers",
-          "Authorization, Content-Type, Accept, Origin, User-Agent, DNT, Cache-Control, X-Mx-ReqToken, Keep-Alive, X-Requested-With, If-Modified-Since");
-      response.setHeader("Access-Control-Max-Age", "86400");
-      response.setStatus(HttpServletResponse.SC_OK);
+      String origin = request.getHeader("Origin");
+      if (origin != null) {
+        // Get allowed origins from environment variable or use default
+        String allowedOrigins = System.getenv("CORS_ALLOWED_ORIGINS");
+        boolean isAllowed = false;
+        
+        if (allowedOrigins != null && !allowedOrigins.isEmpty()) {
+          isAllowed = java.util.Arrays.asList(allowedOrigins.split(",")).contains(origin);
+        } else {
+          // Default allowed origins
+          isAllowed = origin.equals("http://localhost:3000") || 
+                     origin.equals("http://127.0.0.1:3000") || 
+                     origin.matches("https://.*\\.vercel\\.app");
+        }
+        
+        if (isAllowed) {
+          response.setHeader("Access-Control-Allow-Origin", origin);
+          response.setHeader("Access-Control-Allow-Credentials", "true");
+          response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+          response.setHeader("Access-Control-Allow-Headers",
+              "Authorization, Content-Type, Accept, Origin, User-Agent, DNT, Cache-Control, X-Mx-ReqToken, Keep-Alive, X-Requested-With, If-Modified-Since");
+          response.setHeader("Access-Control-Max-Age", "86400");
+          response.setStatus(HttpServletResponse.SC_OK);
+        }
+      }
       return;
     }
 
