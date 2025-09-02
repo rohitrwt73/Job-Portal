@@ -38,9 +38,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/public/**").permitAll()
-                        .requestMatchers("/api/jobs/**").permitAll() // ✅ Allow public access to all job endpoints
+                        .requestMatchers("/", "/api/auth/**", "/api/public/**", "/api/jobs/**").permitAll()
+            
                         .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated());
 
