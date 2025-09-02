@@ -1,7 +1,6 @@
 // src/services/jobService.js
 import axios from 'axios';
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8081/api/jobs';
+import { API_ENDPOINTS } from './apiConfig';
 
 // 🔐 Add JWT token from localStorage
 const authHeader = () => {
@@ -14,11 +13,11 @@ const authHeader = () => {
   };
 };
 
-export const getAllJobs = () => axios.get(API_BASE_URL); // Public access
-const getJobById = (id) => axios.get(`${API_BASE_URL}/${id}`, authHeader());
-const createJob = (job) => axios.post(API_BASE_URL, job, authHeader());
-const updateJob = (id, job) => axios.put(`${API_BASE_URL}/${id}`, job, authHeader());
-const deleteJob = (id) => axios.delete(`${API_BASE_URL}/${id}`, authHeader());
+export const getAllJobs = () => axios.get(API_ENDPOINTS.JOBS.BASE); // Public access
+const getJobById = (id) => axios.get(`${API_ENDPOINTS.JOBS.BASE}/${id}`, authHeader());
+const createJob = (job) => axios.post(API_ENDPOINTS.JOBS.BASE, job, authHeader());
+const updateJob = (id, job) => axios.put(`${API_ENDPOINTS.JOBS.BASE}/${id}`, job, authHeader());
+const deleteJob = (id) => axios.delete(`${API_ENDPOINTS.JOBS.BASE}/${id}`, authHeader());
 
 const jobService = {
   getAllJobs,
@@ -27,7 +26,7 @@ const jobService = {
   updateJob,
   deleteJob,
   searchJobs: (title, location) =>
-    axios.get(`${API_BASE_URL}/search`, {
+    axios.get(API_ENDPOINTS.JOBS.SEARCH, {
       params: { title, location },
     }), // Public access
 };

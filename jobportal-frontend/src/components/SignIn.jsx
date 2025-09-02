@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/authContext";
+import { API_ENDPOINTS } from "../services/apiConfig";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ export default function SignIn() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8081/api/auth/login",
+        API_ENDPOINTS.AUTH.LOGIN,
         {
           email: formData.email,
           password: formData.password,
@@ -46,12 +47,12 @@ export default function SignIn() {
       localStorage.setItem("token", jwt);
       login(user);
 
-      setLoading(false); // ✅ ensure this is here
-      navigate("/"); // ✅ now this will be executed
+      setLoading(false);
+      navigate("/");
     } catch (err) {
       console.error("Login Error:", err);
       setError("Invalid email or password. Please try again.");
-      setLoading(false); // ✅ stop loading on error too
+      setLoading(false);
     }
   };
 

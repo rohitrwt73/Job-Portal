@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 import com.example.jobportal.payload.RegistrationRequest; // Import the new DTO
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

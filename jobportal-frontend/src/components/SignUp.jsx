@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { API_ENDPOINTS } from "../services/apiConfig";
 // Password strength checker
 const checkPasswordStrength = (password) => {
   let score = 0;
@@ -233,7 +234,7 @@ export default function SignUp({ onSignUpSuccess, onNavigateToLogin }) {
     try {
       // ✅ Send data to Spring Boot backend
       const response = await axios.post(
-        "http://localhost:8081/api/auth/register",
+        API_ENDPOINTS.AUTH.REGISTER,
         {
           email: formData.email,
           password: formData.password,

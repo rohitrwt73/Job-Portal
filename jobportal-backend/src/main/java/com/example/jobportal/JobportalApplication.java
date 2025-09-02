@@ -12,7 +12,7 @@ import com.github.javafaker.Faker;
 
 import java.util.stream.IntStream;
 
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+@SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.example.jobportal.repository")
 public class JobportalApplication {
 
