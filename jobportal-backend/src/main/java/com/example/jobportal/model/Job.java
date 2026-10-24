@@ -15,7 +15,9 @@ public class Job {
     private String company;
     private String location;
 
-    // Constructors
+    private String source; // "local" or "remoteok"
+    private String url;    // external job link
+
     public Job() {}
 
     public Job(String title, String description, String company, String location) {
@@ -33,7 +35,6 @@ public class Job {
         this.location = location;
     }
 
-    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -48,4 +49,10 @@ public class Job {
 
     public String getLocation() { return location; }
     public void setLocation(String location) { this.location = location; }
+
+    public String getSource() { return source; }
+    public void setSource(String source) { this.source = source; }
+
+    public String getUrl() { return url; }
+    public void setUrl(String url) { this.url = url; }
 }

@@ -10,18 +10,18 @@ const JobList = ({ jobs, titleFilter, locationFilter }) => {
     const fetchJobs = async () => {
       setLoading(true);
       setError(null);
+
       try {
-        let fetchedJobs;
+        let fetchedJobs = [];
+
         if (titleFilter || locationFilter) {
-          // If filters are present, call the search API
-          fetchedJobs = await jobService.searchJobs(
-            titleFilter,
-            locationFilter
-          );
+          const response = await jobService.searchJobs(titleFilter, locationFilter);
+          fetchedJobs = response.data || [];
         } else {
-          // Otherwise, fetch all jobs
-          fetchedJobs = await jobService.getAllJobs();
+          const response = await jobService.getLiveRemoteJobs();
+          fetchedJobs = response.data || [];
         }
+
         setJobList(fetchedJobs);
       } catch (err) {
         console.error("Error fetching jobs:", err);
@@ -31,52 +31,62 @@ const JobList = ({ jobs, titleFilter, locationFilter }) => {
       }
     };
 
-    // Only fetch if `jobs` prop is not provided, meaning this component is responsible for fetching
     if (!jobs) {
       fetchJobs();
     } else {
-      setJobList(jobs); // If jobs are provided as a prop, use them directly
+      setJobList(Array.isArray(jobs) ? jobs : []);
       setLoading(false);
     }
   }, [jobs, titleFilter, locationFilter]);
 
   if (loading) {
-    return <div className="text-center py-8">Loading jobs...</div>;
+    return <div className="text-center py-8 text-gray-700 font-medium">Loading jobs...</div>;
   }
 
   if (error) {
-    return <div className="text-center py-8 text-red-600">Error: {error}</div>;
+    return <div className="text-center py-8 text-red-600 font-semibold">Error: {error}</div>;
   }
 
   if (jobList.length === 0) {
-    return <div className="text-center py-8 text-gray-600">No jobs found.</div>;
+    return <div className="text-center py-8 text-gray-600 font-medium">No jobs found.</div>;
   }
 
   return (
-    <section className="py-12 px-4 sm:px-6 lg:px-8">
+    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-50 via-violet-50 to-white">
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-          Available Jobs
+        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-center mb-10">
+          <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Live Jobs
+          </span>
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {jobList.map((job) => (
             <div
-              key={job.id}
-              className="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300"
+              key={job.id || job.url || `${job.title}-${job.company}`}
+              className="bg-violet-50/90 border border-violet-200 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6"
             >
-              <h3 className="text-xl font-semibold text-indigo-600 mb-2">
+              <h3 className="text-2xl font-bold text-violet-700 mb-3 leading-snug">
                 {job.title}
               </h3>
-              <p className="text-gray-700 mb-4 text-sm">
-                {job.company} - {job.location}
+
+              <p className="text-base font-semibold text-gray-700 mb-3">
+                {job.company} <span className="text-gray-500 font-medium">•</span> {job.location}
               </p>
-              <p className="text-gray-600 text-sm line-clamp-3">
+
+              <p className="text-sm leading-6 text-gray-700 font-medium line-clamp-3">
                 {job.description}
               </p>
-              <div className="mt-4 flex justify-end">
-                <button className="text-indigo-600 hover:text-indigo-800 font-medium text-sm">
+
+              <div className="mt-6 flex justify-end">
+                <a
+                  href={job.url || "#"}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center text-base font-bold text-indigo-600 hover:text-indigo-800 transition-colors"
+                >
                   View Details
-                </button>
+                </a>
               </div>
             </div>
           ))}

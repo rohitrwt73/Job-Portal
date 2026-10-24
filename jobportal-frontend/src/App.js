@@ -26,7 +26,9 @@ function App() {
         <Route path="/login" element={<SignIn />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/post-job" element={<PostJob />} />
-        <Route path="/search" element={<SearchResults />} /> {/* Add the SearchResults route */}
+        <Route path="/search" element={<SearchResults />} />
+        <Route path="/find-jobs" element={<SearchResults />} />
+        {/* Add the SearchResults route */}
         {/* Add other routes as needed */}
       </Routes>
     </AuthProvider>

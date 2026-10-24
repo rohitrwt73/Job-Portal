@@ -39,10 +39,7 @@ const Navbar = () => {
 
       {/* Desktop Navigation */}
       <div className="hidden md:flex items-center space-x-6">
-        <Link
-          to="/find-jobs"
-          className="text-white hover:text-gray-200 transition-colors font-medium"
-        >
+        <Link to="/search" className="text-white hover:text-gray-200 transition-colors font-medium">
           Find Jobs
         </Link>
         {user && user.role === "EMPLOYER" && (
@@ -108,10 +105,7 @@ const Navbar = () => {
               </SheetDescription>
             </SheetHeader>
             <div className="flex flex-col space-y-4 pt-4">
-              <Link
-                to="/find-jobs"
-                className="text-gray-800 hover:text-blue-600 font-medium"
-              >
+              <Link to="/search" className="text-white hover:text-gray-200 transition-colors font-medium">
                 Find Jobs
               </Link>
               {user && user.role === "EMPLOYER" && (

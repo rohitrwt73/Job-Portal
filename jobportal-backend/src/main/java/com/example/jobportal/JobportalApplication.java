@@ -9,11 +9,12 @@ import org.springframework.boot.CommandLineRunner;
 import com.example.jobportal.model.Job;
 import com.example.jobportal.repository.JobRepository;
 import com.github.javafaker.Faker;
-
+import org.springframework.scheduling.annotation.EnableScheduling;
 import java.util.stream.IntStream;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.example.jobportal.repository")
+@EnableScheduling
 public class JobportalApplication {
 
     public static void main(String[] args) {
