@@ -2,7 +2,14 @@ import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, Sparkles } from "lucide-react"; // Import Sparkles for the logo
 import { Button } from "./ui/button"; // Assuming Button is a UI component
-
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetTrigger
+} from "./ui/sheet"; // Corrected import for Sheet components
 import { useAuth } from "../context/authContext";
 
 const Navbar = () => {
