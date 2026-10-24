@@ -242,7 +242,7 @@ This is important so the frontend can call backend APIs successfully.
 ![image](./assets/2.png)
 ![image](./assets/3.png)
 ![image](./assets/4.png)
-![image](./assets/5.png)
+![image](./assets/6.png)
 
 ---
 
